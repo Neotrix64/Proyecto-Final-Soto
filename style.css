@@ -1,0 +1,49 @@
+*{
+    margin: 0;
+    padding: 0;
+    font-family: 'poppins', sans-serif;
+    box-sizing: border-box;
+}
+
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.login{
+    background-color: #ededed;
+    border-radius: 40px;
+}
+
+span{
+    font-weight: bolder;
+}
+
+.contenido{
+    display: grid;
+    grid-gap: 20px;
+    justify-content: space-between;
+    padding: 200px;
+}
+
+.contenido input{
+    border: none;
+    outline: none;
+    padding: 20px;
+    width: 300px;
+    border-radius: 30px;
+}
+
+button{
+    width: 100px; /* Ancho del botón */
+    padding: 10px; /* Espaciado interno del botón */
+    background-color: #007bff; /* Color de fondo del botón */
+    color: white; /* Color del texto del botón */
+    border: none; /* Quita el borde del botón */
+    border-radius: 5px; /* Redondea las esquinas del botón */
+    cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
+    margin-top: 50px;
+    margin-left: 90px;
+}
