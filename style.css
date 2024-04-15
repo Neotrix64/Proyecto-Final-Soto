@@ -12,7 +12,7 @@ body{
     height: 100vh;
 }
 
-.login{
+.login , .Register{
     background-color: #ededed;
     border-radius: 40px;
 }
