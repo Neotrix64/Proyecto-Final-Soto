@@ -47,3 +47,7 @@ container.addEventListener('click', (e) => {
     }
 })
 
+const logoutFun = () => {
+
+    window.location.href = '../index.html'
+}
