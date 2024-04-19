@@ -1,0 +1,15 @@
+    <div class="Login">
+        <form id="LoginForm" action="" method="POST">
+            <div class="contenido">
+                <H1>Login</H1>
+                <span>Email</span>
+                <input type="email" id="email" placeholder="Email" name="Email" required>
+                <span>Password</span>
+                <input type="password" id="password" placeholder="Password" name="Password" required>
+                <button type="submit">Login</button>
+                {{#if error}}
+                <p>{{error}}</p>
+                {{/if}}
+            </div>
+        </form>
+    </div>
