@@ -1,0 +1,17 @@
+    <div class="Register">
+        <form id="RegisterForm" action="" method="POST">
+            <div class="contenido">
+                <H1>Register</H1>
+                <span>Email</span>
+                <input type="email" id="email" placeholder="Email" name="Email" required>
+                <span>Name</span>
+                <input type="text" id="rname" placeholder="Name" name="Name" required>
+                <span>Password</span>
+                <input type="password" id="password" placeholder="Password" name="Password" required>
+                <button type="submit">Register</button>
+                {{#if error}}
+                <p>{{error}}</p>
+                {{/if}}
+            </div>
+        </form>
+    </div>
