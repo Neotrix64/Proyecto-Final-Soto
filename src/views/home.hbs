@@ -31,11 +31,11 @@ body{
 
 .nav-bar{
     display: flex;
-    justify-content: end;
-    align-items: end;
+    justify-content: space-between;
     background-color: #700000;
     padding: 20px;
 }
+
 #main-container{
     display: flex;
     justify-content: center;
@@ -98,13 +98,24 @@ body{
     color: black;
 }
 
+#nombre{
+    float: left;
+    font-size: large;
+    color: #fff;
+    font-weight: bolder;
+    justify-content: start;
+    align-items: start;
+}
 
     </style>
 </head>
 
 <body>
+    
     <section class="nav-bar">
+        <p id="nombre">{{name}}</p>
         <div class="nav">
+            
             <a href="">MetFlix</a>
             <a href="#" id="add" onclick="openModal()">Add</a>
             <a href="/logout">LogOut</a>
