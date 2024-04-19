@@ -1,5 +1,7 @@
 <title>MetFlix Portal</title>
 
+<h1>Welcome back {{{name}}}</h1>
+
 <style>
     *{
     margin: 0;
@@ -35,15 +37,25 @@
         margin: 50px;
     }
 
+    .nombre{
+        font-weight: bolder;
+        color: #fff;
+    }
+
     a:hover{
 
     }
 </style>
 
 <header>
+{{#if name}}
+<p id="nombre">{{name}}</p>
     <nav>
+    <a href="/logout">Log Out</a>
+{{else}}
         <a href="/login" id="login">Login</a>
         <a href="/register">Register</a>
+{{/if}}
     </nav>
 </header>
 
