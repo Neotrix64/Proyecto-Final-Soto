@@ -63,8 +63,3 @@ container.addEventListener('click', (e) => {
         e.target.parentElement.remove();
     }
 })
-
-const logoutFun = () => {
-
-    window.location.href = '../index.html'
-}
