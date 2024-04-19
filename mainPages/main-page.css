@@ -76,7 +76,16 @@ body{
 
 
 #getModal{
-    background-color: #333333;
-    padding: 200px;
-    
+    background-color: #252525;
+    margin: 0 auto;
+    width: 150px;
+    padding: 150px;
 }
+
+#trailerBtn{
+    text-decoration: none;
+    background-color: white;
+    padding: 4.2px;
+    color: black;
+}
+

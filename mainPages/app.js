@@ -1,5 +1,6 @@
 const modal = document.getElementById('getModal')
 const closeModal = document.getElementById('closeModal')
+
 const UrlInput = document.getElementById('UrlInput')
 const NameInput = document.getElementById('NameInput')
 const container = document.querySelector('.movies')
@@ -44,20 +45,24 @@ submit.addEventListener('click', () => {
     <p id="movieName">${director}</p>
     <button class="deleteBtn">Delete</button>
     <button class="editBtn">Edit</button>
+    <a href="${url}" id="trailerBtn">watch trailer</a>
     </div>`
     container.appendChild(movieContainer);
 
     UrlInput.value = '';
     NameInput.value = '';
+    DirectorInput.value = '';
+    ReseñaInput.value = '';
+    yearInput.value = '';
 })
+
+
 
 container.addEventListener('click', (e) => {
     if (e.target.classList.contains("deleteBtn")) {
         e.target.parentElement.remove();
     }
 })
-
-
 
 const logoutFun = () => {
 
