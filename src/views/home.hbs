@@ -18,6 +18,10 @@
             background-color: #252525;
         }
 
+        p{
+            color: #fff;
+        }
+
         .nav-bar .nav a {
             text-decoration: none;
             color: black;
@@ -94,7 +98,7 @@
             padding: 150px;
         }
 
-        #trailerBtn,.trailerBtn {
+        #trailerBtn {
             text-decoration: none;
             background-color: white;
             padding: 4.2px;
@@ -109,8 +113,6 @@
             justify-content: start;
             align-items: start;
         }
-
-        
     </style>
 </head>
 
@@ -120,11 +122,14 @@
         <p id="nombre">{{name}}</p>
         <div class="nav">
 
+            <input type="text" id="searchInput" placeholder="Buscar película por nombre...">
+
             <a href="">MetFlix</a>
             <a href="#" id="add" onclick="openModal()">Add</a>
             <a href="/logout">LogOut</a>
         </div>
     </section>
+
     <dialog id="getModal">
         <input type="text" placeholder="URL" id="UrlInput">
         <input type="text" placeholder="Name" id="NameInput">
@@ -167,65 +172,102 @@
     </section>
 
     <script>
-        const modal = document.getElementById('getModal')
-        const closeModal = document.getElementById('closeModal')
 
-        const UrlInput = document.getElementById('UrlInput')
-        const NameInput = document.getElementById('NameInput')
-        const container = document.querySelector('.movies')
-        const uploadImg = document.getElementById('uploadImg')
-        const submit = document.getElementById('submitMovie')
-        const searchInput = document.getElementById('searchInput')
+        const modal = document.getElementById('getModal');
+        const closeModal = document.getElementById('closeModal');
+        const UrlInput = document.getElementById('UrlInput');
+        const NameInput = document.getElementById('NameInput');
+        const container = document.querySelector('.movies');
+        const uploadImg = document.getElementById('uploadImg');
+        const submit = document.getElementById('submitMovie');
+        const searchInput = document.getElementById('searchInput');
         const yearInput = document.getElementById('AñoInput');
         const ReseñaInput = document.getElementById('DirectorInput');
         const DirectorInput = document.getElementById('ReseñaInput');
 
-
         const openModal = () => {
-            modal.showModal()
-        }
+            modal.style.display = 'block';
+        };
 
         const closeM = () => {
-            modal.close()
-        }
+            modal.style.display = 'none';
+        };
+
+        const filterMovies = (query) => {
+            const movies = document.querySelectorAll('.movie-card');
+            movies.forEach((movie) => {
+                const movieName = movie.querySelector('.movieName').textContent.toLowerCase();
+                if (movieName.includes(query.toLowerCase())) {
+                    movie.style.display = 'block';
+                } else {
+                    movie.style.display = 'none';
+                }
+            });
+        };
+
+        searchInput.addEventListener('input', (e) => {
+            const query = e.target.value;
+            filterMovies(query);
+        });
 
         submit.addEventListener('click', () => {
-    const url = UrlInput.value;
-    const name = NameInput.value;
-    const year = yearInput.value;
-    const reseña = ReseñaInput.value;
-    const director = DirectorInput.value;
+            const url = UrlInput.value;
+            const name = NameInput.value;
+            const year = yearInput.value;
+            const reseña = ReseñaInput.value;
+            const director = DirectorInput.value;
 
-    if (!url.trim() || !name.trim()) {
-        alert('Por favor, completa todos los campos.');
-        return;
-    }
-    const movieContainer = document.createElement('div');
-    movieContainer.classList.add('movie');
-    const file = uploadImg.files[0];
-    const img = URL.createObjectURL(file);
+            if (!url.trim() || !name.trim()) {
+                alert('Por favor, completa todos los campos.');
+                return;
+            }
 
-    movieContainer.innerHTML =
-        `<div class="movie-card">
-        <img src="${img}" alt=""><br>
-        <p id="movieName">${name}</p>
-        <p id="movieName">${year}</p>
-        <p id="movieName">${reseña}</p>
-        <p id="movieName">${director}</p>
-        <button class="deleteBtn">Delete</button>
-        <button class="editBtn">Edit</button>
-        <a href="#" class="trailerBtn" id="#trailerBtn" onclick="openTrailerWindow('${url}')">watch trailer</a>
-        </div>`;
-    container.appendChild(movieContainer);
+            const movieContainer = document.createElement('div');
+            movieContainer.classList.add('movie');
+            const file = uploadImg.files[0];
+            const img = URL.createObjectURL(file);
 
-    UrlInput.value = '';
-    NameInput.value = '';
-    DirectorInput.value = '';
-    ReseñaInput.value = '';
-    yearInput.value = '';
-});
+            movieContainer.innerHTML = `
+                <div class="movie-card">
+                    <img src="${img}" alt=""><br>
+                    <p class="movieName">${name}</p>
+                    <p>${year}</p>
+                    <p>${reseña}</p>
+                    <p>${director}</p>
+                    <button class="deleteBtn">Delete</button>
+                    <button class="editBtn">Edit</button>
+                    <a href="${url}" class="trailerBtn">watch trailer</a>
+                </div>
+            `;
+            container.appendChild(movieContainer);
 
-function openTrailerWindow(videoURL) {
+            UrlInput.value = '';
+            NameInput.value = '';
+            DirectorInput.value = '';
+            ReseñaInput.value = '';
+            yearInput.value = '';
+
+            saveData();
+        });
+
+        function saveData() {
+            const movies = document.querySelectorAll('.movie-card');
+            const data = [];
+            movies.forEach((movie) => {
+                data.push(movie.outerHTML);
+            });
+            localStorage.setItem("data", data.join(''));
+        }
+
+        function showList() {
+            const savedData = localStorage.getItem("data");
+            if (savedData) {
+                container.innerHTML = savedData;
+            }
+        }
+        showList();
+
+    function openTrailerWindow(videoURL) {
     
     if (!videoURL.trim()) {
         alert('Please enter a video URL.');
@@ -262,6 +304,8 @@ function openTrailerWindow(videoURL) {
                 e.target.parentElement.remove();
             }
         })
+        const pelis = document.getElementById('movies');
+        
 
     </script>
 </body>
