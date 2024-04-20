@@ -55,7 +55,6 @@ function storeUser(req, res) {
             } else {
                 bcrypt.hash(data.Password, 12).then(hash => {
                     data.Password = hash;
-                    console.log(data);
             
                     req.getConnection((err, conn) =>{
                         conn.query('INSERT INTO users SET ?', [data], (err, rows) => {
