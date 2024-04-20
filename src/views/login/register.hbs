@@ -45,7 +45,8 @@ body {
 
 .topSide {
     background-color: rgba(0, 0, 0, 0.6);
-    padding-bottom: 200px;
+    height: 100vw;
+    max-height: 100%;
 }
 
 .login-card {
@@ -199,6 +200,7 @@ p{
                 </div>
                 <div>
                     <button type="submit" class="btn-login">Register</button>
+                    
                 {{#if error}}
                 <p>{{error}}</p>
                 {{/if}}
@@ -206,6 +208,11 @@ p{
             </form>
         </div>
     </div>
+
+    <script>
+
+        
+    </script>
 </body>
 
 </html>
