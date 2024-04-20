@@ -18,7 +18,7 @@
             background-color: #252525;
         }
 
-        p{
+        p {
             color: #fff;
         }
 
@@ -98,7 +98,8 @@
             padding: 150px;
         }
 
-        #trailerBtn {
+        #trailerBtn,
+        .trailerBtn {
             text-decoration: none;
             background-color: white;
             padding: 4.2px;
@@ -112,6 +113,13 @@
             font-weight: bolder;
             justify-content: start;
             align-items: start;
+        }
+
+        #searchInput{
+            border: none;
+            padding: 5px;
+            background-color: #700000;
+            border-bottom: 1px solid black;
         }
     </style>
 </head>
@@ -172,7 +180,6 @@
     </section>
 
     <script>
-
         const modal = document.getElementById('getModal');
         const closeModal = document.getElementById('closeModal');
         const UrlInput = document.getElementById('UrlInput');
@@ -197,13 +204,15 @@
             const movies = document.querySelectorAll('.movie-card');
             movies.forEach((movie) => {
                 const movieName = movie.querySelector('.movieName').textContent.toLowerCase();
+                const movieCard = movie.closest('.movie-card');
                 if (movieName.includes(query.toLowerCase())) {
-                    movie.style.display = 'block';
+                    movieCard.style.display = 'block';
                 } else {
-                    movie.style.display = 'none';
+                    movieCard.style.display = 'none';
                 }
             });
         };
+
 
         searchInput.addEventListener('input', (e) => {
             const query = e.target.value;
@@ -227,27 +236,52 @@
             const file = uploadImg.files[0];
             const img = URL.createObjectURL(file);
 
-            movieContainer.innerHTML = `
-                <div class="movie-card">
-                    <img src="${img}" alt=""><br>
-                    <p class="movieName">${name}</p>
-                    <p>${year}</p>
-                    <p>${reseña}</p>
-                    <p>${director}</p>
-                    <button class="deleteBtn">Delete</button>
-                    <button class="editBtn">Edit</button>
-                    <a href="${url}" class="trailerBtn">watch trailer</a>
-                </div>
-            `;
-            container.appendChild(movieContainer);
+            if (!file) {
+                alert('Por favor, selecciona una imagen.');
+                return;
+            }
 
-            UrlInput.value = '';
-            NameInput.value = '';
-            DirectorInput.value = '';
-            ReseñaInput.value = '';
-            yearInput.value = '';
+            const reader = new FileReader();
 
-            saveData();
+            reader.onload = function (event) {
+                const imgData = event.target.result;
+
+
+                const imgElement = document.createElement('img');
+                imgElement.src = imgData;
+                imgElement.style.width = '400px';
+
+
+                localStorage.setItem('movieImage', imgData);
+
+                movieContainer.innerHTML = `
+            <div class="movie-card">
+                ${imgElement.outerHTML}
+                <br>
+                <p class="movieName">${name}</p>
+                <p>${year}</p>
+                <p>${reseña}</p>
+                <p>${director}</p>
+                <button class="deleteBtn">Delete</button>
+                <button class="editBtn">Edit</button>
+                <a href="#" class="trailerBtn" onclick="openTrailerWindow('${url}')">watch trailer</a>
+            </div>
+        `;
+                container.appendChild(movieContainer);
+
+
+                UrlInput.value = '';
+                NameInput.value = '';
+                DirectorInput.value = '';
+                ReseñaInput.value = '';
+                yearInput.value = '';
+
+
+                saveData();
+            };
+
+
+            reader.readAsDataURL(file);
         });
 
         function saveData() {
@@ -267,47 +301,44 @@
         }
         showList();
 
-    function openTrailerWindow(videoURL) {
-    
-    if (!videoURL.trim()) {
-        alert('Please enter a video URL.');
-        return;
-    }
+        function openTrailerWindow(videoURL) {
+            if (!videoURL.trim()) {
+                alert('Please enter a video URL.');
+                return;
+            }
 
-    
-    const trailerWindow = window.open('', '_blank');
-    trailerWindow.document.write(`
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Trailer</title>
-        </head>
-        <style>
-            .bodyTrailer{
-            background-color: #333333;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            const trailerWindow = window.open('', '_blank');
+            trailerWindow.document.write(`
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Trailer</title>
+            </head>
+            <style>
+                .bodyTrailer{
+                    background-color: #333333;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                }
+            </style>
+            <body class="bodyTrailer">
+                <iframe width="560" height="315" src="${videoURL}" frameborder="0" allowfullscreen></iframe>
+            </body>
+            </html>
+        `);
         }
-        </style>
-        <body class="bodyTrailer">
-            <iframe width="560" height="315" src="${videoURL}" frameborder="0" allowfullscreen></iframe>
-        </body>
-        </html>
-    `);
-}
 
         container.addEventListener('click', (e) => {
             if (e.target.classList.contains("deleteBtn")) {
                 e.target.parentElement.remove();
+                saveData();
             }
-        })
-        const pelis = document.getElementById('movies');
-        
-
+        });
     </script>
+
 </body>
 
 </html>
