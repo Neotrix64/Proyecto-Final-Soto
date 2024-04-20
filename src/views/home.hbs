@@ -115,7 +115,7 @@
             align-items: start;
         }
 
-        #searchInput{
+        #searchInput {
             border: none;
             padding: 5px;
             background-color: #700000;
@@ -203,21 +203,26 @@
         const filterMovies = (query) => {
             const movies = document.querySelectorAll('.movie-card');
             movies.forEach((movie) => {
-                const movieName = movie.querySelector('.movieName').textContent.toLowerCase();
-                const movieCard = movie.closest('.movie-card');
-                if (movieName.includes(query.toLowerCase())) {
-                    movieCard.style.display = 'block';
-                } else {
-                    movieCard.style.display = 'none';
+                const movieNameElement = movie.querySelector('.movieName');
+                if (movieNameElement) {
+                    const movieName = movieNameElement.textContent.toLowerCase();
+                    const movieCard = movie.closest('.movie-card');
+                    if (movieName.includes(query.toLowerCase())) {
+                        movieCard.style.display = 'block';
+                    } else {
+                        movieCard.style.display = 'none';
+                    }
                 }
             });
         };
 
-
         searchInput.addEventListener('input', (e) => {
-            const query = e.target.value;
+            const query = e.target.value.toLowerCase();
             filterMovies(query);
         });
+
+
+
 
         submit.addEventListener('click', () => {
             const url = UrlInput.value;
@@ -297,8 +302,14 @@
             const savedData = localStorage.getItem("data");
             if (savedData) {
                 container.innerHTML = savedData;
+
+                const query = searchInput.value
+                filterMovies(query);
             }
         }
+
+
+
         showList();
 
         function openTrailerWindow(videoURL) {
